@@ -1,38 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: modat <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 17:11:55 by hala              #+#    #+#             */
-/*   Updated: 2025/07/24 01:51:06 by hala             ###   ########.fr       */
+/*   Created: 2024/09/15 13:02:07 by modat             #+#    #+#             */
+/*   Updated: 2024/09/30 15:18:20 by modat            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
 #include "libft.h"
 #include <unistd.h>
-#include <stdio.h>
-#include <pthread.h>
 
-typedef struct s_philo
+void	ft_putchar_fd(char c, int fd)
 {
-    int id;
-}t_philo;
-
-//main.c
-int main(int argc, char **argv);
-
-//utils
-int is_numeric(char *str);
-int handle_input(int argc, char **argv);
-long	ft_atol(const char *nptr);
-
-
-
-
-
-
-#endif
+	write(fd, &c, 1);
+}

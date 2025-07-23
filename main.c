@@ -6,63 +6,57 @@
 /*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:17:43 by hala              #+#    #+#             */
-/*   Updated: 2025/07/22 18:40:26 by hala             ###   ########.fr       */
+/*   Updated: 2025/07/24 01:51:33 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-int is_numeric(char *str)
+
+int pthread_create(pthread_t *restrict thread,const pthread_attr_t *restrict attr,
+                          void *(*start_routine)(void *),
+                          void *restrict arg);
+
+void *philo_routine(void *arg)
 {
-    int i = 0;
-
-    if (!str || !str[0]) // empty
-        return (1);
-
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return (1);
-        i++;
-    }
-
-    return (0);
+    t_philo *philo = (t_philo *)arg;
+    printf("Hello! I am philosopher %d 🍝\n", philo->id);
+    return NULL;
 }
-
-int handle_input(int argc, char **argv)
-{
-    int     i;
-    
-    if(argc != 5 || argc != 6)
-    return(1);
-    i = 1;
-    while(i < argc)
-    
-        if(!is_numeric(argv[i]))
-            return(1);
-        i++;
-}   
-    
-        
-    
-
 
 int main(int argc, char **argv)
 {
-    int		result;
-	result = handle_errors(argc, argv);
-	if (result == 1)
-		return (1);
+    int nb_philos;
+    pthread_t *threads;
+    t_philo *philos;
+    int i;
+
+    if (handle_input(argc, argv) == 1)
+        return (1);
+    nb_philos = ft_atoi(argv[1]);
+    threads = malloc(sizeof(pthread_t) * nb_philos);
+    philos = malloc(sizeof(t_philo) * nb_philos);
+    if (!threads || !philos)
+        return (1);
+
+    // ✅ create all threads
+    i = 0;
+    while (i < nb_philos)
+    {
+        philos[i].id = i + 1;
+        pthread_create(&threads[i], NULL, philo_routine, &philos[i]);
+        i++;
+    }
+
+    // ✅ join all threads
+    i = 0;
+    while (i < nb_philos)
+    {
+        pthread_join(threads[i], NULL);
+        i++;
+    }
+
+    free(threads);
+    free(philos);
+
+    return (0);
 }
-
-
-./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
-number_of_philosophers → must be > 0
-
-time_to_die, time_to_eat, time_to_sleep → must be > 0 (in ms)
-
-number_of_times_each_philosopher_must_eat (optional) → must be > 0
-
-So first, you just:
-✅ Read argc & argv
-✅ Validate they are numbers
-✅ Store them in a struct
