@@ -55,7 +55,7 @@ void *monitor_routine(void *arg)
                 pthread_mutex_unlock(&shared->print_mutex);
 
                 shared->someone_died = 1;
-                return NULL; // Stop monitor
+                return (NULL);
             }
             i++;
         }

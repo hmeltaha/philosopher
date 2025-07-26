@@ -23,11 +23,15 @@ int init_shared(t_shared **shared, char **argv, int argc)
 		(*shared)->must_eat_count = ft_atoi(argv[5]);
 	else
 		(*shared)->must_eat_count = -1;
-	(*shared)->someone_died = 0;
-    (*shared)->start_time_ms = 43; // you’ll implement this later
-    //(*shared)->start_time_ms = get_time_ms(); // you’ll implement this later
-    //pthread_mutex_init(&(*shared)->print_mutex, NULL);
-    return (0);
+    (*shared)->someone_died = 0;
+    (*shared)->start_time_ms = get_time_ms();  // Initialize actual start time
+
+    if (pthread_mutex_init(&(*shared)->print_mutex, NULL) != 0)
+    {
+        free(*shared);
+        return (1);
+    }
+    return(0);
 }
 int init_forks(int nb_philo, t_shared *shared)
 {

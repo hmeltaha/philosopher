@@ -6,7 +6,7 @@
 /*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:17:43 by hala              #+#    #+#             */
-/*   Updated: 2025/07/26 03:12:50 by hala             ###   ########.fr       */
+/*   Updated: 2025/07/26 03:25:27 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     pthread_t *threads;
     t_philo *philos;
 	t_shared *shared;
-     pthread_t monitor;
+    pthread_t monitor;
 
     if (handle_input(argc, argv) == 1)
         return (1);
@@ -38,7 +38,6 @@ int main(int argc, char **argv)
     }
     if (pthread_create(&monitor, NULL, monitor_routine, shared) != 0)
     {
-        printf("Error: failed to create monitor thread\n");
         cleanup(&shared, &threads, &philos);
         return (1);
     }
