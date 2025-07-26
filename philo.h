@@ -6,7 +6,7 @@
 /*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:11:55 by hala              #+#    #+#             */
-/*   Updated: 2025/07/26 02:31:46 by hala             ###   ########.fr       */
+/*   Updated: 2025/07/26 03:13:50 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,14 @@ typedef struct s_philo
 
 //main.c
 int main(int argc, char **argv);
-void *monitor_routine(void *arg);
-	
+
 //utils
 int is_numeric(char *str);
 int handle_input(int argc, char **argv);
 long	ft_atol(const char *nptr);
- // initi
+int init_all(t_shared **shared, pthread_t **threads, t_philo **philos, int argc, char **argv);
+
+// initi
 int init_philosophers(int nb_philos, pthread_t **threads, t_philo **philos);
 int init_shared(t_shared **shared, char **argv, int argc);
 int init_forks(int nb_philo, t_shared *shared);
@@ -82,7 +83,7 @@ void sleep_philo(t_philo *philo);
 long get_time_ms(void);
 void wait_philosophers(int nb_philos, pthread_t *threads);
 void		assigns_forks(int nb_philos, t_shared **g_shared, t_philo **philo);
-void safe_print(t_philo *philo, const char *msg);
+void *monitor_routine(void *arg);
 
 //print_utils
 void print_action(t_philo *philo, const char *action);

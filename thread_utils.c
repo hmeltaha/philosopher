@@ -32,7 +32,42 @@ void assigns_forks(int nb_philos, t_shared **g_shared, t_philo **philo)
         i++;
     }
 }
+void *monitor_routine(void *arg)
+{
+    t_shared *shared = (t_shared *)arg;
+    long now;
+    long time_since_meal;
+    int i;
 
+    while (!shared->someone_died)
+    {
+        now = get_time_ms();
+        i = 0;
+        while (i < shared->philo_num && !shared->someone_died)
+        {
+            time_since_meal = now - shared->philos[i].last_meal_time;
+            if (time_since_meal > shared->time_to_die)
+            {
+                pthread_mutex_lock(&shared->print_mutex);
+                printf("%ld %d died 💀\n",
+                       now - shared->start_time_ms,
+                       shared->philos[i].id);
+                pthread_mutex_unlock(&shared->print_mutex);
+
+                shared->someone_died = 1;
+                return NULL; // Stop monitor
+            }
+            i++;
+        }
+        if (all_philos_ate_enough(shared))
+        {
+            shared->someone_died = 1;
+            return NULL;
+        }
+        usleep(500);
+    }
+    return NULL;
+}
 // void safe_print(t_philo *philo, const char *msg)
 // {
 //     pthread_mutex_lock(&philo->shared->print_mutex);
