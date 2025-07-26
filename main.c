@@ -3,70 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:17:43 by hala              #+#    #+#             */
-/*   Updated: 2025/07/24 19:26:04 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:43:03 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void print_shared(t_shared *shared)
-{
-    printf("==== Shared Simulation Settings ====\n");
-    printf("Philosophers:        %d\n", shared->philo_num);
-    printf("time_to_die:         %d ms\n", shared->time_to_die);
-    printf("time_to_eat:         %d ms\n", shared->time_to_eat);
-    printf("time_to_sleep:       %d ms\n", shared->time_to_sleep);
-    if (shared->must_eat_count == -1)
-        printf("must_eat_count:      unlimited\n");
-    else
-        printf("must_eat_count:      %d\n", shared->must_eat_count);
-    printf("Simulation start:    %ld ms\n", shared->start_time_ms);
-    printf("Someone died flag:   %d\n", shared->someone_died);
-    printf("===================================\n");
-}
 
-void *philo_routine(void *arg)
+
+void *monitor_routine(void *arg)
 {
-    t_philo *philo = (t_philo *)arg;
-    printf("Hello! I am philosopher %d 🍝\n", philo->id);
+    t_shared *shared = (t_shared *)arg;
+    long now;
+    long time_since_meal;
+    int i;
+
+    while (!shared->someone_died)
+    {
+        now = get_time_ms();
+        i = 0;
+
+        while (i < shared->philo_num && !shared->someone_died)
+        {
+            time_since_meal = now - shared->philos[i].last_meal_time;
+
+            // Uncomment for debug:
+            // printf("[DEBUG] Philosopher %d time since last meal: %ld ms\n", shared->philos[i].id, time_since_meal);
+
+            if (time_since_meal > shared->time_to_die)
+            {
+                pthread_mutex_lock(&shared->print_mutex);
+                printf("%ld %d died 💀\n",
+                       now - shared->start_time_ms,
+                       shared->philos[i].id);
+                pthread_mutex_unlock(&shared->print_mutex);
+
+                shared->someone_died = 1;
+                return NULL; // Stop monitor
+            }
+            i++;
+        }
+
+        if (all_philos_ate_enough(shared))
+        {
+            shared->someone_died = 1; // Signal to stop simulation
+            return NULL;
+        }
+
+        usleep(500); // Sleep 0.5 ms to reduce CPU usage but keep good responsiveness
+    }
     return NULL;
 }
 
-// create all philosopher threads
-int start_philosophers(int nb_philos, pthread_t *threads, t_philo *philos)
-{
-    int i = 0;
-    while (i < nb_philos)
-    {
-        philos[i].id = i + 1;
-        if (pthread_create(&threads[i], NULL, philo_routine, &philos[i]) != 0)
-        {
-            printf("Error: failed to create thread %d\n", i + 1);
-            return (1);
-        }
-        i++;
-    }
-    return (0);
-}
-
-void wait_philosophers(int nb_philos, pthread_t *threads)
-{
-    int i = 0;
-    while (i < nb_philos)
-    {
-        pthread_join(threads[i], NULL);
-        i++;
-    }
-}
-
-void cleanup(pthread_t *threads, t_philo *philos)
-{
-    free(threads);
-    free(philos);
-}
 
 
 int init_all(t_shared **shared, pthread_t **threads, t_philo **philos, int argc, char **argv)
@@ -85,42 +76,44 @@ int init_all(t_shared **shared, pthread_t **threads, t_philo **philos, int argc,
     return (0); // all good
 }
 
-int		assigns_forks(int nb_philos, t_shared **g_shared, t_philo **philo)
-{
-	int		i;
 
-	i = 0;
-	while(i < nb_philos)
-	{
-		philo[i].shared = g_shared;
-		philo[i]->left_fork = 
-	}
-}
+
 int main(int argc, char **argv)
 {
     int nb_philos;
     pthread_t *threads;
     t_philo *philos;
 	t_shared *shared;
+     pthread_t monitor;
 
     if (handle_input(argc, argv) == 1)
         return (1);
 
     nb_philos = ft_atoi(argv[1]);
 	if (init_all(&shared, &threads, &philos, argc, argv))
-        return (1);
-	if(assigns_forks(nb_philos, &shared, &philos))
-		return(1);
-    if (start_philosophers(nb_philos, threads, philos))
     {
-        cleanup(threads, philos);
+        cleanup(&shared,&threads,&philos);
         return (1);
     }
+	assigns_forks(nb_philos, &shared, &philos);
+    shared->philos = philos;
+    if (start_routine(nb_philos, threads, philos))
+    {
+        cleanup(&shared,&threads,&philos);
+        return (1);
+    }
+    if (pthread_create(&monitor, NULL, monitor_routine, shared) != 0)
+    {
+        printf("Error: failed to create monitor thread\n");
+        cleanup(&shared, &threads, &philos);
+        return (1);
+    }
+    pthread_join(monitor, NULL);
     wait_philosophers(nb_philos, threads);
-    cleanup(threads, philos);
-
+    cleanup(&shared, &threads, &philos);
     return (0);
 }
+
 /*
 1. Validate input
 2. init_all() → alloc & init everything

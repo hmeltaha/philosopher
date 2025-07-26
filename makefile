@@ -1,6 +1,6 @@
 CC		= cc
 CFLAGS 	= -Wall -Wextra -Werror -Ilibft
-SRCS	= main.c utils.c
+SRCS	= main.c utils.c init.c thread_utils.c rotine.c print_utils.c routine_utils.c
 OBJS	= $(SRCS:.c=.o)
 NAME	= philo
 
@@ -9,7 +9,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C libft
-	$(CC) $(CFLAGS) $(OBJS) -Llibft -lft -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -Llibft -lft -o $(NAME) -lpthread
 
 %.o:%.c philo.h
 	$(CC) $(CFLAGS) -c $< -o $@
