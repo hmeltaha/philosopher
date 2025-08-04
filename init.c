@@ -52,8 +52,8 @@ int init_forks(int nb_philo, t_shared *shared)
     }
 
     // Also init print mutex (only 1, no malloc)
-    if (pthread_mutex_init(&shared->print_mutex, NULL) != 0)
-        return (1);
+    //if (pthread_mutex_init(&shared->print_mutex, NULL) != 0)
+    //    return (1);
 
     return (0);
 }
