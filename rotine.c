@@ -53,7 +53,6 @@ void eat(t_philo *philo)
         pthread_mutex_unlock(philo->left_fork);
         return;
     }
-
     pthread_mutex_lock(philo->right_fork);
     if (philo->shared->someone_died)
     {
@@ -73,7 +72,6 @@ void eat(t_philo *philo)
     {
         usleep(100); // 0.1 ms sleep for responsiveness
     }
-
     pthread_mutex_unlock(philo->right_fork);
     pthread_mutex_unlock(philo->left_fork);
 }

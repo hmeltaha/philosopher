@@ -53,7 +53,7 @@ void *monitor_routine(void *arg)
                        now - shared->start_time_ms,
                        shared->philos[i].id);
                 pthread_mutex_unlock(&shared->print_mutex);
-
+				
                 shared->someone_died = 1;
                 return (NULL);
             }
