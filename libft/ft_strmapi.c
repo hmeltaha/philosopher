@@ -3,32 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 13:02:07 by modat             #+#    #+#             */
-/*   Updated: 2024/09/30 16:15:11 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/13 15:41:33 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
-//#include <stdio.h>
-//#include <string.h>
-/*
-char	passfunc(unsigned int i, char amended_s);
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-			
-int	main(void)
-{
-	char	amended_s[] = "hola amigo";
-	char	*res;
 
-	res = ft_strmapi(amended_s, passfunc);
-	printf("%s", res);
-	free(res);
-	return (0);
-}
-*/
 char	passfunc(unsigned int i, char amended_s)
 {
 	if ((amended_s >= 'a' && amended_s <= 'z'))
@@ -59,4 +43,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	amended_s[i] = '\0';
 	return (amended_s);
 }
-

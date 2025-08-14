@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/13 15:39:59 by hmeltaha          #+#    #+#             */
+/*   Updated: 2025/08/13 19:15:41 by hmeltaha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 // allocate memory & setup philosophers
@@ -22,8 +34,8 @@ int init_shared(t_shared **shared, char **argv, int argc)
 	if(argc == 6)
 		(*shared)->must_eat_count = ft_atoi(argv[5]);
 	else
-		(*shared)->must_eat_count = -1;
-    (*shared)->someone_died = 0;
+		(*shared)->must_eat_count = -1; 
+    (*shared)->someone_died = 0; //mutex
     (*shared)->start_time_ms = get_time_ms();  // Initialize actual start time
 
     if (pthread_mutex_init(&(*shared)->print_mutex, NULL) != 0)
@@ -47,13 +59,8 @@ int init_forks(int nb_philo, t_shared *shared)
     while (i < nb_philo)
     {
         if (pthread_mutex_init(&shared->forks[i], NULL) != 0)
-            return (1); // failed mutex init
+            return (1);
         i++;
     }
-
-    // Also init print mutex (only 1, no malloc)
-    //if (pthread_mutex_init(&shared->print_mutex, NULL) != 0)
-    //    return (1);
-
     return (0);
 }

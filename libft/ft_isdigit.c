@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 08:16:04 by modat             #+#    #+#             */
-/*   Updated: 2024/08/27 08:52:44 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/13 15:42:52 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,5 @@ int	ft_isdigit(int digit)
 		return (1);
 	}
 	else
-	{	
 		return (0);
-	}
 }

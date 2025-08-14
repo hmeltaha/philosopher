@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: modat <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 14:35:58 by modat             #+#    #+#             */
-/*   Updated: 2024/09/30 15:21:12 by modat            ###   ########.fr       */
+/*   Updated: 2025/08/13 15:43:22 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-/*#include <stdio.h>
-
-int	ft_atoi(const char *nptr);
-
-int	main(void)
-{
-	const char nptr[] = "+548";
-	char res;
-	
-	res = ft_atoi(nptr);
-	printf("res: %d", res);
-	return (0);
-}
-	*/
 
 int	ft_atoi(const char *nptr)
 {
@@ -52,4 +38,3 @@ int	ft_atoi(const char *nptr)
 	result *= sign;
 	return (result);
 }
-
