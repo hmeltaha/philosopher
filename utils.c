@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 15:44:29 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/13 15:44:30 by hmeltaha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
 int	is_numeric(char *str)
@@ -17,15 +5,15 @@ int	is_numeric(char *str)
 	int	i;
 
 	i = 0;
-	if (!str || !str[0]) // NULL or empty string
+	if (!str || !str[0])
 		return (0);
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-			return (0); // invalid if any non-digit
+			return (0);
 		i++;
 	}
-	return (1); // valid
+	return (1);
 }
 
 int	handle_input(int argc, char **argv)
@@ -33,14 +21,14 @@ int	handle_input(int argc, char **argv)
 	int		i;
 	long	val;
 
-	if (argc != 5 && argc != 6) // must be 5 or 6
+	if (argc != 5 && argc != 6)
 		return (1);
 	i = 1;
 	while (i < argc)
 	{
-		if (!is_numeric(argv[i])) // not a valid number
+		if (!is_numeric(argv[i]))
 			return (1);
-		val = ft_atol(argv[i]); // convert to long
+		val = ft_atol(argv[i]);
 		if (val <= 0 || val > INT_MAX)
 			return (1);
 		i++;
@@ -71,4 +59,14 @@ long	ft_atol(const char *nptr)
 		i++;
 	}
 	return (result * sign);
+}
+
+int	get_argv(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		i++;
+	return (i);
 }

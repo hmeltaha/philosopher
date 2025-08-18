@@ -3,65 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:44:35 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/14 17:22:51 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/18 04:35:39 by hala             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
 bool	all_philos_ate_enough(t_shared *shared)
 {
-    int	i;
+	int		i;
+	bool	all_ate;
 
+	all_ate = true;
+	all_ate = true;
+	if (shared->must_eat_count == -1)
+		return (false);
+	pthread_mutex_lock(&shared->must_eat_mutex);
 	i = 0;
-    if (shared->must_eat_count == -1)
-        return (false);
-
-    while (i < shared->philo_num)
-    {
-        if (shared->philos[i].meals_eaten < shared->must_eat_count)
-            return (false);  // someone still hungry
-        i++;
-    }
-    return (true);
+	while (i < shared->philo_num)
+	{
+		if (shared->philos[i].meals_eaten < shared->must_eat_count)
+		{
+			all_ate = false;
+			break ;
+		}
+		i++;
+	}
+	pthread_mutex_unlock(&shared->must_eat_mutex);
+	return (all_ate);
 }
-void mutex_destroy_all(pthread_t **threads, t_shared **shared)
-{
-    pthread_mutex_destroy(&(*shared)->print_mutex);
-}
-void cleanup(t_shared **shared, pthread_t **threads, t_philo **philos)
-{
-    int i = 0;
 
-    if (!shared || !(*shared))
-        return;
-    if ((*shared)->forks)
-    {
-        while (i < (*shared)->philo_num)
-        {
-            pthread_mutex_destroy(&(*shared)->forks[i]);
-            i++;
-        }
-        free((*shared)->forks);
-    }
-	//destroy all mutextwe
+void	mutex_destroy_all(pthread_t **threads, t_shared **shared)
+{
+	(void)threads;
+	pthread_mutex_destroy(&(*shared)->print_mutex);
+	pthread_mutex_destroy(&(*shared)->must_eat_mutex);
+	pthread_mutex_destroy(&(*shared)->someone_died_mutex);
+}
+
+void	cleanup(t_shared **shared, pthread_t **threads, t_philo **philos)
+{
+	int	i;
+
+	if (!shared || !(*shared))
+		return ;
+	if ((*shared)->forks)
+	{
+		i = -1;
+		while (++i < (*shared)->philo_num)
+			pthread_mutex_destroy(&(*shared)->forks[i]);
+		free((*shared)->forks);
+	}
 	mutex_destroy_all(threads, shared);
-    // free philos & threads (must dereference!)
-    if (philos && *philos)
-    {
-        free(*philos);
-        *philos = NULL;
-    }
-    if (threads && *threads)
-    {
-        free(*threads); 
-        *threads = NULL;
-    }
-    free(*shared);
-    *shared = NULL;
+	if (philos && *philos)
+	{
+		free(*philos);
+		*philos = NULL;
+	}
+	if (threads && *threads)
+	{
+		free(*threads);
+		*threads = NULL;
+	}
+	free(*shared);
+	*shared = NULL;
 }
-
