@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 19:02:39 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/19 19:02:40 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/19 19:08:48 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	lock_forks(t_philo *philo)
 		pthread_mutex_unlock(philo->left_fork);
 		return (1);
 	}
-	print_action(philo, "has taken left fork");
+	print_action(philo, "has taken a fork");
 	if (philo->right_fork == NULL)
 	{
 		pthread_mutex_unlock(philo->left_fork);
@@ -48,6 +48,6 @@ int	lock_forks(t_philo *philo)
 		pthread_mutex_unlock(philo->left_fork);
 		return (1);
 	}
-	print_action(philo, "has taken right fork");
+	print_action(philo, "has taken a fork");
 	return (0);
 }

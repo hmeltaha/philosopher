@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:44:37 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/18 04:51:38 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/19 19:07:43 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	sleep_philo(t_philo *philo)
 {
 	long	start;
 
+	print_action(philo, "is sleeping");
 	start = get_time_ms();
 	while (!philo->shared->someone_died && (get_time_ms()
 			- start < philo->shared->time_to_sleep))
