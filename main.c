@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:17:43 by hala              #+#    #+#             */
-/*   Updated: 2025/08/18 04:32:08 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/20 18:54:43 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	run_threads(int nb, t_shared *shared, pthread_t *threads, t_philo *philos)
 {
 	pthread_t	monitor;
 
-	if (start_routine(nb, threads, philos))
-		return (1);
 	if (pthread_create(&monitor, NULL, monitor_routine, shared) != 0)
+		return (1);
+	if (start_routine(nb, threads, philos))
 		return (1);
 	pthread_join(monitor, NULL);
 	wait_philosophers(nb, threads);

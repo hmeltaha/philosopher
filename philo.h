@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:11:55 by hala              #+#    #+#             */
-/*   Updated: 2025/08/18 04:52:54 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/20 18:54:20 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ typedef struct s_shared
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				must_eat_count;
+	int				stopped;
+	_Atomic int		must_eat_count;
 	long			start_time_ms;
-	int				someone_died;
+	_Atomic int		someone_died;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	must_eat_mutex;
@@ -50,8 +51,8 @@ typedef struct s_philo
 {
 	int				id;
 	int				meals_so_far;
-	long			last_meal_time;
-	int				meals_eaten;
+	_Atomic long	last_meal_time;
+	_Atomic int		meals_eaten;
 	pthread_t		thread_id;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -85,12 +86,15 @@ int					init_forks(int nb_philo, t_shared *shared);
 // routine.c
 int					start_routine(int nb_philos, pthread_t *threads,
 						t_philo *philos);
+void				*philo_routine_even(void *arg);
 void				*philo_routine(void *arg);
 void				think(t_philo *philo);
 void				eat(t_philo *philo);
 void				sleep_philo(t_philo *philo);
-void				eat_meal(t_philo *philo);
-int					lock_forks(t_philo *philo);
+void				eat_meal(t_philo *philo, pthread_mutex_t *l,
+						pthread_mutex_t *r);
+int					lock_forks(t_philo *philo, pthread_mutex_t *l,
+						pthread_mutex_t *r);
 
 // thread_utils
 long				get_time_ms(void);

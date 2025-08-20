@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 19:02:45 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/19 19:02:46 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/20 18:43:09 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	*monitor_routine(void *arg)
 		}
 		if (check_all_ate(shared))
 			return (NULL);
-		usleep(500);
+		usleep(100);
 	}
 	return (NULL);
 }

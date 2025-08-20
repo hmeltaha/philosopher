@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:44:35 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/18 04:35:39 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/20 18:12:51 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	cleanup(t_shared **shared, pthread_t **threads, t_philo **philos)
 	if ((*shared)->forks)
 	{
 		i = -1;
-		while (++i < (*shared)->philo_num)
+		while (++i < (*shared)->stopped)
 			pthread_mutex_destroy(&(*shared)->forks[i]);
 		free((*shared)->forks);
 	}

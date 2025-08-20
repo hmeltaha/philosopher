@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:44:37 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/19 19:07:43 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/20 19:01:19 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,19 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	philo->last_meal_time = get_time_ms();
+	if (philo->shared->philo_num == 1)
+	{
+		print_action(philo, "has taken a fork");
+		return (NULL);
+	}
+	if (philo->id % 2 == 0)
+		usleep(philo->shared->time_to_eat * 1000);
 	while (!philo->shared->someone_died)
 	{
 		think(philo);
 		eat(philo);
 		sleep_philo(philo);
+		usleep(100);
 	}
 	return (NULL);
 }
@@ -57,9 +64,22 @@ void	think(t_philo *philo)
 // func -- 4
 void	eat(t_philo *philo)
 {
-	if (lock_forks(philo))
+	pthread_mutex_t	*l;
+	pthread_mutex_t	*r;
+
+	if (philo->id % 2)
+	{
+		r = philo->right_fork;
+		l = philo->left_fork;
+	}
+	else
+	{
+		l = philo->right_fork;
+		r = philo->left_fork;
+	}
+	if (lock_forks(philo, l, r))
 		return ;
-	eat_meal(philo);
+	eat_meal(philo, l, r);
 }
 
 // func 5

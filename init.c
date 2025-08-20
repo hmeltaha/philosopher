@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hala <hala@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:39:59 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/18 04:26:53 by hala             ###   ########.fr       */
+/*   Updated: 2025/08/20 18:57:26 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 int	init_philosophers(int nb_philos, pthread_t **threads, t_philo **philos)
 {
 	*threads = malloc(sizeof(pthread_t) * nb_philos);
+	if (!(*threads))
+		return (1);
 	*philos = malloc(sizeof(t_philo) * nb_philos);
-	if (!(*threads) || !(*philos))
+	if (!(*philos))
 		return (1);
 	return (0);
 }
@@ -74,8 +76,12 @@ int	init_forks(int nb_philo, t_shared *shared)
 	while (i < nb_philo)
 	{
 		if (pthread_mutex_init(&shared->forks[i], NULL) != 0)
+		{
+			shared->stopped = i;
 			return (1);
+		}
 		i++;
 	}
+	shared->stopped = nb_philo;
 	return (0);
 }
