@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:17:43 by hala              #+#    #+#             */
-/*   Updated: 2025/08/20 18:54:43 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:43:09 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ int	init_all(t_shared **shared, pthread_t **threads, t_philo **philos,
 	return (0);
 }
 
+void	init_null(t_shared **shared, pthread_t **threads, t_philo **philos)
+{
+	*shared = NULL;
+	*threads = NULL;
+	*philos = NULL;
+}
+
 int	main(int argc, char **argv)
 {
 	int			nb_philos;
@@ -51,6 +58,7 @@ int	main(int argc, char **argv)
 	t_philo		*philos;
 	t_shared	*shared;
 
+	init_null(&shared, &threads, &philos);
 	if (handle_input(argc, argv))
 		return (1);
 	if (init_all(&shared, &threads, &philos, argv))

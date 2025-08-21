@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:43:51 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/20 19:01:55 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:13:49 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	assigns_forks(int nb_philos, t_shared **g_shared, t_philo **philo)
 	while (i < nb_philos)
 	{
 		(*philo)[i].shared = *g_shared;
+		(*philo)[i].meals_eaten = 0;
 		(*philo)[i].last_meal_time = (*g_shared)->start_time_ms;
 		(*philo)[i].left_fork = &(*g_shared)->forks[i];
 		if (nb_philos == 1)

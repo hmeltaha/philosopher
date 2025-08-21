@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:11:55 by hala              #+#    #+#             */
-/*   Updated: 2025/08/20 18:54:20 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:39:19 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <string.h>
 
 # define RESET "\033[0m"
 # define RED "\033[31m"

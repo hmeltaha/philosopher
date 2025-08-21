@@ -6,7 +6,7 @@
 /*   By: hmeltaha <hmeltaha@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 15:39:59 by hmeltaha          #+#    #+#             */
-/*   Updated: 2025/08/20 18:57:26 by hmeltaha         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:44:37 by hmeltaha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	init_shared(t_shared **shared, char **argv, int argc)
 		(*shared)->must_eat_count = -1;
 	(*shared)->someone_died = 0;
 	(*shared)->start_time_ms = get_time_ms();
+	(*shared)->forks = NULL;
 	if (init_mutex_shared(shared))
 	{
 		free(*shared);

@@ -1,5 +1,5 @@
 CC		= cc
-CFLAGS 	= -Wall -Wextra -Werror
+CFLAGS 	= -Wall -Wextra -Werror -g
 SRCS	= main.c utils.c init.c thread_utils.c routine.c print_utils.c routine_utils.c libft_utils.c eat_utils.c monitor.c
 OBJS	= $(SRCS:.c=.o)
 NAME	= philo
